@@ -2,8 +2,6 @@ import styled from "styled-components";
 
 import Mercury from '../assets/mercury_orbit.jpg';
 
-import TextBox from "./TextBox";
-
 const AboutMe = () => {
 
   return(

@@ -1,6 +1,5 @@
 import ShootingStars from "./ShootingStars";
 import Planets from "./Planets";
-import CursorStar from "./CursorStar";
 import StaticStars from "./StaticStars";
 import WindowContainer from "./WindowContainer";
 import PageTitle from "./PageTitle";

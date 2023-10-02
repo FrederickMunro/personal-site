@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components"
+import styled from "styled-components"
 
 const PageTitle = ({ children, className }: any) => {
 
@@ -10,14 +10,6 @@ const PageTitle = ({ children, className }: any) => {
 }
 
 export default PageTitle
-
-const name = keyframes`
-  
-`
-
-const title = keyframes`
-
-`
 
 const Container = styled.div`
   display: inline-block;
