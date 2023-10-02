@@ -14,26 +14,27 @@ const Planets = () => {
   type PlanetItem = {
     name: string;
     icon: string;
-    dayLength: number;
+    daylength: number;
     size: number;
     tilt: number;
     link: string;
-    isClicked: boolean;
+    isClicked: number;
   };
 
-  const [isClicked, setIsClicked] = useState<boolean[]>([false, false, false, false]);
+  const [isClicked, setIsClicked] = useState<number[]>([0, 0, 0, 0]);
 
   const PlanetItemList:PlanetItem[] = [
-    { name: 'Mercury', icon: Mercury, dayLength: 176, size: 0.38, tilt: 0.027, link: '/about_me', isClicked: isClicked[0] },
-    { name: 'Venus', icon: Venus, dayLength: 243, size: 0.95, tilt: 3, link: '/education', isClicked: isClicked[1] },
-    { name: 'Earth', icon: Earth, dayLength: 24, size: 1, tilt: 23.5, link: '/experience', isClicked: isClicked[2] },
-    { name: 'Mars', icon: Mars, dayLength: 23.9, size: 0.53, tilt: 25, link: '/projects', isClicked: isClicked[3] },
+    { name: 'About Me', icon: Mercury, daylength: 176, size: 0.38, tilt: 0.027, link: '/about_me', isClicked: isClicked[0] },
+    { name: 'Education', icon: Venus, daylength: 243, size: 0.95, tilt: 3, link: '/education', isClicked: isClicked[1] },
+    { name: 'Experience', icon: Earth, daylength: 24, size: 1, tilt: 23.5, link: '/experience', isClicked: isClicked[2] },
+    { name: 'Projects', icon: Mars, daylength: 23.9, size: 0.53, tilt: 25, link: '/projects', isClicked: isClicked[3] },
   ]
 
   const handleClicked = (planetNumber: number) => {
-    const updateIsClicked = [...isClicked];
-    updateIsClicked[planetNumber] = !updateIsClicked[planetNumber];
-    setIsClicked(updateIsClicked);
+    if (planetNumber === 0) setIsClicked([1, 6, 6, 6]);
+    if (planetNumber === 1) setIsClicked([5, 2, 6, 6]);
+    if (planetNumber === 2) setIsClicked([5, 5, 3, 6]);
+    if (planetNumber === 3) setIsClicked([5, 5, 5, 4]);
   }
 
   return(
@@ -44,12 +45,12 @@ const Planets = () => {
               <Planet
                 name={e.name}
                 icon={e.icon}
-                dayLength={e.dayLength}
+                daylength={e.daylength}
                 size={e.size}
                 tilt={e.tilt}
-                className={e.isClicked ? `clicked` : ''}
                 planetNumber={i}
                 handleClicked={handleClicked}
+                clickType={isClicked[i]}
                 key={i}
               />
           )
@@ -63,6 +64,7 @@ export default Planets
 
 const Container = styled.div`
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
