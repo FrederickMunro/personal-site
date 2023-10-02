@@ -1,36 +1,24 @@
 import { useState } from 'react';
-
+import { Link, useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 import PlanetTitle from './PlanetTitle';
-import { Link, useNavigate } from 'react-router-dom';
+import Planet3D from './Planet3D';
 
 interface PlanetProps {
-  name:string;
-  icon:string;
-  daylength: number;
-  size: number;
-  tilt: number;
-  planetNumber: number;
-  handleClicked: Function;
-  clickType: number;
-}
-
-interface ImageProps {
+  name: string;
   icon: string;
   daylength: number;
   size: number;
-}
-
-interface ContainerProps {
-}
-
-interface PlanetContainerProps {
   tilt: number;
-  size: number;
+  link: string;
+  planetNumber: number;
+  handleClicked: Function;
+  clickType: number;
+  color: string;
 }
 
-const Planet = ({ name, icon, daylength, size, tilt, planetNumber, handleClicked, clickType }: PlanetProps) => {
+const Planet = ({ name, icon, daylength, size, tilt, link, planetNumber, handleClicked, clickType, color }: PlanetProps) => {
 
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [clicked, setClicked] = useState<boolean>(false)
@@ -44,18 +32,11 @@ const Planet = ({ name, icon, daylength, size, tilt, planetNumber, handleClicked
     if (!clicked) setIsHovered(true);
   }
 
-  const chooseLink = () => {
-    if (name === 'About Me') return '/about_me'
-    if (name === 'Education') return '/education'
-    if (name === 'Experience') return '/experience'
-    return '/projects'
-  }
-
   const navigate = useNavigate();
   const delayLink = (e: any) => {
     e.preventDefault();
     setTimeout(() => {
-      navigate(chooseLink())
+      navigate(link)
     }, 5500);
   }
 
@@ -81,13 +62,14 @@ const Planet = ({ name, icon, daylength, size, tilt, planetNumber, handleClicked
           onMouseLeave={() => setIsHovered(false)}
           onClick={() => wasClicked()}
         >
-          <PlanetContainer
-            size={250*size}
+          <Planet3D
+            icon={icon}
+            size={size}
             tilt={tilt}
             className={isHovered ? 'hovered' : 'not-hovered'}
-          >
-            <Image icon={icon} daylength={daylength} size={400*size} />
-          </PlanetContainer>
+            daylength={daylength}
+            color={color}
+          />
         </Container>
       </Link>
     </Group>
@@ -177,41 +159,7 @@ const Group = styled.div`
   }
 `
 
-const Container = styled.div<ContainerProps>`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
-`
-
-const PlanetContainer = styled.div<PlanetContainerProps>`
-  cursor: pointer;
-  border-radius: 50%;
-  height: ${props => props.size}px;
-  width: ${props => props.size}px;
-  filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.2));
-  transform: skew(-${props => props.tilt}deg, ${props => props.tilt}deg);
-  overflow: hidden;
-  transition: all .2s ease-in-out 0s;
-  &.hovered:hover {
-    transform: scale(1.1) skew(-${props => props.tilt}deg, ${props => props.tilt}deg);
-  }
-`
-
-const Image = styled.div<ImageProps>`
-  background: url(${props => props.icon});
-  width: 300%;
-  height: 100%;
-  margin-left: -200%;
-  background-size: contain;
-  opacity: 1;
-  
-  animation: rotate ${props => props.daylength!}s linear 0s infinite;
-
-  @keyframes rotate {
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
-    100% {
-      transform: translate3d(66.666666%, 0, 0);
-    }
-  }
 `

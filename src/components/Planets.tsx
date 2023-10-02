@@ -18,15 +18,16 @@ const Planets = () => {
     tilt: number;
     link: string;
     isClicked: number;
+    color: string;
   };
 
   const [isClicked, setIsClicked] = useState<number[]>([0, 0, 0, 0]);
 
   const PlanetItemList:PlanetItem[] = [
-    { name: 'About Me', icon: Mercury, daylength: 176, size: 0.38, tilt: 0.027, link: '/about_me', isClicked: isClicked[0] },
-    { name: 'Education', icon: Venus, daylength: 243, size: 0.95, tilt: 3, link: '/education', isClicked: isClicked[1] },
-    { name: 'Experience', icon: Earth, daylength: 24, size: 1, tilt: 23.5, link: '/experience', isClicked: isClicked[2] },
-    { name: 'Projects', icon: Mars, daylength: 23.9, size: 0.53, tilt: 25, link: '/projects', isClicked: isClicked[3] },
+    { name: 'About Me', icon: Mercury, daylength: 176, size: 0.38, tilt: 0.027, link: '/about_me', isClicked: isClicked[0], color: '#e2e2e2' },
+    { name: 'Education', icon: Venus, daylength: 243, size: 0.95, tilt: 3, link: '/education', isClicked: isClicked[1], color: '#f0d08b' },
+    { name: 'Experience', icon: Earth, daylength: 24, size: 1, tilt: 23.5, link: '/experience', isClicked: isClicked[2], color: '#287ab8' },
+    { name: 'Projects', icon: Mars, daylength: 23.9, size: 0.53, tilt: 25, link: '/projects', isClicked: isClicked[3], color: '#c1440e' },
   ]
 
   const handleClicked = (planetNumber: number) => {
@@ -47,9 +48,11 @@ const Planets = () => {
                 daylength={e.daylength}
                 size={e.size}
                 tilt={e.tilt}
+                link={e.link}
                 planetNumber={i}
                 handleClicked={handleClicked}
                 clickType={isClicked[i]}
+                color={e.color}
                 key={i}
               />
           )
