@@ -30,21 +30,24 @@ const Title = styled.h2<TitleProps>`
   font-size: 25px;
   display: inline-block;
   overflow: hidden;
-  border-right: 0.15em solid white;
+  border-right: 0.15em solid transparent;
   border-left: 0.15em solid transparent;
   white-space: nowrap;
   letter-spacing: .1em;
   user-select: none;
   pointer-events: none;
+  color: transparent;
   animation: 
-    typing-h2 1s steps(15, end),
-    blink-caret-h2 0.5s step-end infinite;
+    typing-h2 1.5s steps(20, end) forwards,
+    blink-caret-h2 0.5s step-end 3;
 
   @keyframes typing-h2 {
     from {
+      color: white;
       width: 0
     }
     to {
+      color: white;
       width: 65%
     }
   }
@@ -53,6 +56,8 @@ const Title = styled.h2<TitleProps>`
     0% {
       border-right-color: transparent
     }
-    50% { border-right-color: white; }
+    50% {
+      border-right-color: white;
+    }
   }
 `
