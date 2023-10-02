@@ -8,8 +8,8 @@ interface StarProps {
   starty: number;
   endy: number;
   size: number;
-  animID: number;
-  animTime: number;
+  animid: number;
+  animtime: number;
 }
 
 const ShootingStars = () => {
@@ -36,8 +36,8 @@ const ShootingStars = () => {
 
   const launchStar = () => {
     const { startx, endx, starty, endy } = generateStarDetails();
-    const animID = Date.now(),
-          animTime = Math.random()*4+1;
+    const animid = Date.now(),
+          animtime = Math.random()*4+1;
 
     const star =
       <Star
@@ -46,14 +46,14 @@ const ShootingStars = () => {
         starty={starty}
         endy={endy}
         size={Math.ceil(Math.random()*4)}
-        animID={animID}
-        animTime={animTime}
+        animid={animid}
+        animtime={animtime}
         key={Date.now()}
       />
 
     setStarList([...starList, star])
 
-    setTimeout(() => setStarList((prevStars) => prevStars.filter((star) => star.key !== animID)), animTime*1000+1000);
+    setTimeout(() => setStarList((prevStars) => prevStars.filter((star) => star.key !== animid)), animtime*1000+1000);
   }
 
   return(
@@ -81,9 +81,9 @@ const Star = styled.div.attrs<StarProps>(({ size }) => ({
   position: fixed;
   border-radius: 50%;
 
-  animation: ${props => `moveStar-${props.animID}`} ${props => `${props.animTime}s`} linear forwards;
+  animation: ${props => `moveStar-${props.animid}`} ${props => `${props.animtime}s`} linear forwards;
   
-  @keyframes ${props => `moveStar-${props.animID}`} {
+  @keyframes ${props => `moveStar-${props.animid}`} {
     from {
       transform: translate3d(${props => `${props.startx}vw`}, ${props => `${props.starty}vh`}, 0);
     }
