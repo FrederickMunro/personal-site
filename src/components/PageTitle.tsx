@@ -32,42 +32,12 @@ const Title = styled.h1`
   pointer-events: none;
   animation: 
     typing 3.5s steps(40, end),
-    blink-caret 0.75s step-end infinite;
-
-  
-  &.title {
-    margin-top: 60px;
-    margin-left: 10px;
-    font-size: 40px;
-    animation: 
-      typing 3s steps(40, end) 3.5s forwards,
-      blink-caret 0.75s step-end 3.5s 4;
-
-    @keyframes typing {
-      from {
-        color: white;
-        width: 0;
-      }
-      to {
-        color: white;
-        width: 100%;
-      }
-    }
-
-    @keyframes blink-caret {
-      0% {
-        border-right-color: transparent;
-      }
-      50% {
-        border-right-color: white;
-      }
-    }
-  }
+    blink-caret 0.75s step-end 3;
   
   &.name {
     animation: 
-    typing 3.5s steps(40, end) forwards,
-    blink-caret 0.75s step-end 4;
+    typing 3s steps(40, end) forwards,
+    blink-caret 0.6s step-end 4;
 
     @keyframes typing {
       from {
@@ -89,5 +59,33 @@ const Title = styled.h1`
       }
     }
   }
+  
+  &.title {
+    margin-top: 60px;
+    margin-left: 10px;
+    font-size: 40px;
+    animation: 
+      typing 2.5s steps(35, end) 3s forwards,
+      blink-caret 0.6s step-end 3s 4;
 
+    @keyframes typing {
+      from {
+        color: white;
+        width: 0;
+      }
+      to {
+        color: white;
+        width: 100%;
+      }
+    }
+
+    @keyframes blink-caret {
+      0% {
+        border-right-color: transparent;
+      }
+      50% {
+        border-right-color: white;
+      }
+    }
+  }
 `
