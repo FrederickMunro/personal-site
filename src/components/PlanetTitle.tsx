@@ -38,8 +38,8 @@ const Title = styled.h2<TitleProps>`
   pointer-events: none;
   color: transparent;
   animation: 
-    typing-h2 1.5s steps(20, end) forwards,
-    blink-caret-h2 0.5s step-end 3;
+    typing-h2 1s steps(20, end) forwards,
+    blink-caret-h2 0.5s step-end 2;
 
   @keyframes typing-h2 {
     from {
