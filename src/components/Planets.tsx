@@ -4,7 +4,7 @@ import Planet from './Planet'
 
 import Mercury from '../assets/mercury.jpg';
 import Venus from '../assets/venus.jpg';
-import Earth from '../assets/earth.jpeg';
+import Earth from '../assets/earth.jpg';
 import Mars from '../assets/mars.jpg';
 import { useState } from 'react';
 
