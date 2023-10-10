@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
-import Mountains1 from '../assets/m1.png'
-import Mountains2 from '../assets/m2.png'
+import Mountains1 from '../assets/m1.png';
+import Mountains2 from '../assets/m2.png';
+import Mountains3 from '../assets/m3.png';
+import Mountains4 from '../assets/m4.png';
+import Mountains5 from '../assets/m5.png';
+import Mountains6 from '../assets/m6.png';
 
 import { useRef, useState, useEffect } from "react";
 
@@ -13,6 +17,10 @@ interface Dimensions {
 interface Cursor {
   x: number;
   y: number;
+}
+
+interface WindowInfo {
+
 }
 
 const Projects = () => {
@@ -169,8 +177,12 @@ const Projects = () => {
   return(
     <>
       <Canvas ref={canvasRef} />
-      <Img1 src={Mountains1} />
-      <Img2 src={Mountains2} />
+      <Img1 src={Mountains1} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} />
+      <Img2 src={Mountains2} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} />
+      <Img3 src={Mountains3} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} />
+      <Img4 src={Mountains4} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} />
+      {/* <Img5 src={Mountains5} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} />
+      <Img6 src={Mountains6} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} /> */}
     </>
   )
 }
@@ -181,16 +193,54 @@ const Canvas = styled.canvas`
   position: fixed;
 `
 
-const Img1 = styled.img`
+const Img1 = styled.img<Cursor & Dimensions>`
   position: fixed;
-  left: -5%;
-  width: 60%;
+  height: 10%;
+  left: ${props => `${-1 - ((props.x / props.width))}%`};
+  width: 52%;
   bottom: 0;
 `
 
-const Img2 = styled.img`
+const Img2 = styled.img<Cursor & Dimensions>`
   position: fixed;
-  left: 45%;
+  height: 13%;
+  left: ${props => `${50.5 - (props.x / props.width)}%`};
+  width: 52%;
+  bottom: 0;
+`
+
+const Img3 = styled.img<Cursor & Dimensions>`
+  position: fixed;
+  height: 18%;
+  left: ${props => `${-1 - (props.x / props.width) * 5}%`};
+  width: 58%;
+  bottom: 0;
+  opacity: 0.5;
+`
+
+const Img4 = styled.img<Cursor & Dimensions>`
+  position: fixed;
+  height: 18%;
+  left: ${props => `${53 - (props.x / props.width) * 5}%`};
+  width: 59%;
+  bottom: 0;
+  opacity: 0.5;
+`
+
+const Img5 = styled.img<Cursor & Dimensions>`
+  position: fixed;
+  height: 20%;
+  left: ${props => `${-((props.x / props.width) * 10)}%`};
   width: 60%;
   bottom: 0;
+  mix-blend-mode: multiply;
+`
+
+const Img6 = styled.img<Cursor & Dimensions>`
+  position: fixed;
+  height: 20%;
+  left: ${props => `${-(-50 + (props.x / props.width) * 10)}%`};
+  width: 60%;
+  bottom: 0;
+  mix-blend-mode: multiply;
 `
