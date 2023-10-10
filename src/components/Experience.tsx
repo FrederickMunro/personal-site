@@ -58,9 +58,9 @@ const Experience = () => {
   const [starLocs, setStarLocs] = useState<Star[]>(starLocations);
 
   const cutoff = {
-    day: 0.15,
-    sunset: 0.04,
-    evening: 0.015,
+    day: 0.2,
+    sunset: 0.05,
+    evening: 0.02,
     night: 0,
   }
 
@@ -321,8 +321,8 @@ const Experience = () => {
         width={windowSize.height}
       />
       <TextBox color={cursor.y > windowSize.height-windowSize.height*cutoff.sunset}>
-        <Company>Staffbase</Company>
-        <Title>Software Engineer</Title>
+        <Company>Staffbase - Junior Software Engineer</Company>
+        <Date>May 2022 - May 2023</Date>
         <Tasks>
           <Task>
             <p>Implemented improvements and fixes to enhance the functionalities of a collaborative email creation tool within the web application.</p>
@@ -409,13 +409,13 @@ const TextBox = styled.p<TextColor>`
 `
 
 const Company = styled.h2`
-  font-size: 30px;
+  font-size: 28px;
   margin: 0;
 `
 
-const Title = styled.h3`
-  font-size: 24px;
-  margin: 0 0 0 5px;
+const Date = styled.h3`
+  font-size: 16px;
+  margin: 0 0 0 2px;
 `
 
 const Tasks = styled.ul`
