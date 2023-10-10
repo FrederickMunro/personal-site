@@ -1,11 +1,5 @@
-import styled from "styled-components";
 
-import Mountains1 from '../assets/m1.png';
-import Mountains2 from '../assets/m2.png';
-import Mountains3 from '../assets/m3.png';
-import Mountains4 from '../assets/m4.png';
-import Mountains5 from '../assets/m5.png';
-import Mountains6 from '../assets/m6.png';
+import styled from "styled-components";
 
 import { useRef, useState, useEffect } from "react";
 
@@ -19,12 +13,8 @@ interface Cursor {
   y: number;
 }
 
-interface WindowInfo {
-
-}
-
 const Projects = () => {
-
+    
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [windowSize, setWindowSize] = useState<Dimensions>({
@@ -36,48 +26,6 @@ const Projects = () => {
     x: 0,
     y: 0,
   })
-
-  const cutoff = {
-    day: 0.15,
-    sunset: 0.04,
-    evening: 0.015,
-    night: 0,
-  }
-
-  const colorLayer1 = {
-    day: [255, 255, 255],
-    sunset: [255, 229, 119],
-    evening: [250, 240, 230],
-    night: [27, 27, 27],
-  }
-
-  const colorLayer2 = {
-    day: [201, 252, 253],
-    sunset: [254, 192, 81],
-    evening: [185, 180, 199],
-    night: [27, 27, 27],
-  }
-
-  const colorLayer3 = {
-    day: [186, 253, 255],
-    sunset: [255, 147, 103],
-    evening: [92, 84, 112],
-    night: [27, 27, 27],
-  }
-
-  const colorLayer4 = {
-    day: [145, 252, 255],
-    sunset: [253, 96, 81],
-    evening: [53, 47, 68],
-    night: [27, 27, 27],
-  }
-
-  const lerpColor = (color1: number[], color2: number[], t: number) => {
-    const r = Math.round((1 - t) * color1[0] + t * color2[0]),
-          g = Math.round((1 - t) * color1[1] + t * color2[1]),
-          b = Math.round((1 - t) * color1[2] + t * color2[2]);
-    return [r, g, b];
-  }
 
   const handleResize = () => {
     setWindowSize({
@@ -104,63 +52,13 @@ const Projects = () => {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    let gradient = ctx.createRadialGradient(
-      cursorLoc.x,
-      cursorLoc.y,
-      0,
-      cursorLoc.x,
-      cursorLoc.y,
-      windowSize.width > windowSize.height ? 1.1*windowSize.width : 1.1*windowSize.height
-    );
-
-    let background: string;
-    if (cursorLoc.y < windowSize.height-windowSize.height*cutoff.day) {
-      const t = (1-cursorLoc.y/windowSize.height - cutoff.day) / (1 - cutoff.day);
-      const layer1 = lerpColor(colorLayer1.sunset, colorLayer1.day, t),
-          layer2 = lerpColor(colorLayer2.sunset, colorLayer2.day, t),
-          layer3 = lerpColor(colorLayer3.sunset, colorLayer3.day, t),
-          layer4 = lerpColor(colorLayer4.sunset, colorLayer4.day, t);
-      gradient.addColorStop(0.03, `rgb(${layer1[0]}, ${layer1[1]}, ${layer1[2]})`);
-      gradient.addColorStop(0.075, `rgb(${layer2[0]}, ${layer2[1]}, ${layer2[2]})`);
-      gradient.addColorStop(0.2, `rgb(${layer3[0]}, ${layer3[1]}, ${layer3[2]})`);
-      gradient.addColorStop(0.4, `rgb(${layer4[0]}, ${layer4[1]}, ${layer4[2]})`);
-      background = `rgb(${layer4[0]}, ${layer4[1]}, ${layer4[2]})`;
-    } else if (cursorLoc.y < windowSize.height-windowSize.height*cutoff.sunset && cursorLoc.y >= windowSize.height-windowSize.height*cutoff.day) {
-      const t = (1-cursorLoc.y/windowSize.height - cutoff.sunset) / (cutoff.day - cutoff.sunset);
-      const layer1 = lerpColor(colorLayer1.evening, colorLayer1.sunset, t),
-            layer2 = lerpColor(colorLayer2.evening, colorLayer2.sunset, t),
-            layer3 = lerpColor(colorLayer3.evening, colorLayer3.sunset, t),
-            layer4 = lerpColor(colorLayer4.evening, colorLayer4.sunset, t);
-      gradient.addColorStop(0.03, `rgb(${layer1[0]}, ${layer1[1]}, ${layer1[2]})`);
-      gradient.addColorStop(0.075, `rgb(${layer2[0]}, ${layer2[1]}, ${layer2[2]})`);
-      gradient.addColorStop(0.2, `rgb(${layer3[0]}, ${layer3[1]}, ${layer3[2]})`);
-      gradient.addColorStop(0.4, `rgb(${layer4[0]}, ${layer4[1]}, ${layer4[2]})`);
-      background = `rgb(${layer4[0]}, ${layer4[1]}, ${layer4[2]})`;
-    } else if (cursorLoc.y < windowSize.height-windowSize.height*cutoff.evening && cursorLoc.y >= windowSize.height-windowSize.height*cutoff.sunset) {
-      const t = (1-cursorLoc.y/windowSize.height - cutoff.evening) / (cutoff.sunset - cutoff.evening);
-      const layer1 = lerpColor(colorLayer1.night, colorLayer1.evening, t),
-            layer2 = lerpColor(colorLayer2.night, colorLayer2.evening, t),
-            layer3 = lerpColor(colorLayer3.night, colorLayer3.evening, t),
-            layer4 = lerpColor(colorLayer4.night, colorLayer4.evening, t);
-      gradient.addColorStop(0.03, `rgb(${layer1[0]}, ${layer1[1]}, ${layer1[2]})`);
-      gradient.addColorStop(0.075, `rgb(${layer2[0]}, ${layer2[1]}, ${layer2[2]})`);
-      gradient.addColorStop(0.2, `rgb(${layer3[0]}, ${layer3[1]}, ${layer3[2]})`);
-      gradient.addColorStop(0.4, `rgb(${layer4[0]}, ${layer4[1]}, ${layer4[2]})`);
-      background = `rgb(${layer4[0]}, ${layer4[1]}, ${layer4[2]})`;
-    } else {
-      gradient.addColorStop(0.03, `rgb(${colorLayer1.night[0]}, ${colorLayer1.night[1]}, ${colorLayer1.night[2]})`);
-      gradient.addColorStop(0.075, `rgb(${colorLayer2.night[0]}, ${colorLayer2.night[1]}, ${colorLayer2.night[2]})`);
-      gradient.addColorStop(0.2, `rgb(${colorLayer3.night[0]}, ${colorLayer3.night[1]}, ${colorLayer3.night[2]})`);
-      gradient.addColorStop(0.4, `rgb(${colorLayer4.night[0]}, ${colorLayer4.night[1]}, ${colorLayer4.night[2]})`);
-      background = `rgb(${colorLayer4.night[0]}, ${colorLayer4.night[1]}, ${colorLayer4.night[2]})`;
-    }
-    
     ctx.beginPath();
-    ctx.arc(cursorLoc.x, cursorLoc.y, 1.5*windowSize.width, 0, 2*Math.PI)
-    ctx.fillStyle = gradient;
+    ctx.arc(cursorLoc.x, cursorLoc.y, 5, 0, 2*Math.PI)
+    ctx.fillStyle = 'white';
     ctx.fill();
+    ctx.strokeStyle = 'white';
+    ctx.stroke();
     ctx.closePath();
-
   }, [windowSize, cursorLoc])
 
   // Listeners
@@ -176,71 +74,7 @@ const Projects = () => {
 
   return(
     <>
-      <Canvas ref={canvasRef} />
-      <Img1 src={Mountains1} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} />
-      <Img2 src={Mountains2} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} />
-      <Img3 src={Mountains3} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} />
-      <Img4 src={Mountains4} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} />
-      {/* <Img5 src={Mountains5} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} />
-      <Img6 src={Mountains6} x={cursorLoc.x} y={cursorLoc.y} height={windowSize.height} width={windowSize.height} /> */}
     </>
   )
 }
-
 export default Projects
-
-const Canvas = styled.canvas`
-  position: fixed;
-`
-
-const Img1 = styled.img<Cursor & Dimensions>`
-  position: fixed;
-  height: 10%;
-  left: ${props => `${-1 - ((props.x / props.width))}%`};
-  width: 52%;
-  bottom: 0;
-`
-
-const Img2 = styled.img<Cursor & Dimensions>`
-  position: fixed;
-  height: 13%;
-  left: ${props => `${50.5 - (props.x / props.width)}%`};
-  width: 52%;
-  bottom: 0;
-`
-
-const Img3 = styled.img<Cursor & Dimensions>`
-  position: fixed;
-  height: 18%;
-  left: ${props => `${-1 - (props.x / props.width) * 5}%`};
-  width: 58%;
-  bottom: 0;
-  opacity: 0.5;
-`
-
-const Img4 = styled.img<Cursor & Dimensions>`
-  position: fixed;
-  height: 18%;
-  left: ${props => `${53 - (props.x / props.width) * 5}%`};
-  width: 59%;
-  bottom: 0;
-  opacity: 0.5;
-`
-
-const Img5 = styled.img<Cursor & Dimensions>`
-  position: fixed;
-  height: 20%;
-  left: ${props => `${-((props.x / props.width) * 10)}%`};
-  width: 60%;
-  bottom: 0;
-  mix-blend-mode: multiply;
-`
-
-const Img6 = styled.img<Cursor & Dimensions>`
-  position: fixed;
-  height: 20%;
-  left: ${props => `${-(-50 + (props.x / props.width) * 10)}%`};
-  width: 60%;
-  bottom: 0;
-  mix-blend-mode: multiply;
-`
