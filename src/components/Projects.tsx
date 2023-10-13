@@ -8,38 +8,19 @@ interface Dimensions {
   width: number;
 }
 
-interface Cursor {
+interface Coordinates {
   x: number;
   y: number;
 }
 
-const Projects = () => {
+interface ProjectProps {
+  cursor: Coordinates;
+  windowSize: Dimensions;
+}
+
+const Projects = ({ cursor, windowSize }: ProjectProps) => {
     
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  const [windowSize, setWindowSize] = useState<Dimensions>({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  })
-
-  const [cursorLoc, setCursorLoc] = useState<Cursor>({
-    x: 0,
-    y: 0,
-  })
-
-  const handleResize = () => {
-    setWindowSize({
-      height: window.innerHeight,
-      width: window.innerWidth,
-    })
-  }
-
-  const handleMouseMove = (e: MouseEvent) => {
-    setCursorLoc({
-      x: e.clientX,
-      y: e.clientY,
-    })
-  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -52,29 +33,26 @@ const Projects = () => {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    ctx.fillStyle = 'transparent';
+    ctx.fillRect(0, 0, windowSize.width, windowSize.height);
+
     ctx.beginPath();
-    ctx.arc(cursorLoc.x, cursorLoc.y, 5, 0, 2*Math.PI)
+    ctx.arc(cursor.x, cursor.y, 5, 0, 2*Math.PI)
     ctx.fillStyle = 'white';
     ctx.fill();
     ctx.strokeStyle = 'white';
     ctx.stroke();
     ctx.closePath();
-  }, [windowSize, cursorLoc])
-
-  // Listeners
-  useEffect(() => {
-    window.addEventListener('resize', handleResize)
-    window.addEventListener('mousemove', handleMouseMove)
-
-    return() => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-    }
-  }, [])
+  }, [windowSize, cursor])
 
   return(
     <>
+      <Canvas ref={canvasRef} />
     </>
   )
 }
 export default Projects
+
+const Canvas = styled.canvas`
+  position: fixed;
+`

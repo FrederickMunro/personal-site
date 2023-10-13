@@ -64,7 +64,7 @@ function App() {
         <Route path='/about_me' element={ <AboutMe /> } />
         <Route path='/education' element={ <Education /> } />
         <Route path='/experience' element={ <Experience cursor={cursor} windowSize={windowSize} /> } />
-        <Route path='/projects' element={ <Projects /> } />
+        <Route path='/projects' element={ <Projects cursor={cursor} windowSize={windowSize} /> } />
       </Routes>
     </WindowContainer>
   )
