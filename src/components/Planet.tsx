@@ -101,7 +101,7 @@ const centerEarth = keyframes`
     transform: translate3d(-13vw, 0, 0);
   }
   100% {
-    transform: translate3d(-13vw, 210vh, 0) scale(25, 25);
+    transform: translate3d(-13vw, 270vh, 0) scale(25, 25);
   }
 `
 
