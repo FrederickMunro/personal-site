@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import Mountains1 from '../assets/m1.png';
 import Mountains2 from '../assets/m2.png';
@@ -17,7 +17,14 @@ interface Coordinates {
   y: number;
 }
 
-interface Star extends Coordinates {
+interface ExperienceProps {
+  cursor: Coordinates;
+  windowSize: Dimensions;
+}
+
+interface Star {
+  x: number;
+  y: number;
   size: number;
 }
 
@@ -32,20 +39,14 @@ interface TextColor {
   color: boolean;
 }
 
+interface Page {
+  page: number;
+}
 
-const Experience = () => {
+
+const Experience = ({ cursor, windowSize }: ExperienceProps) => {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  const [windowSize, setWindowSize] = useState<Dimensions>({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  })
-
-  const [cursor, setCursor] = useState<Coordinates>({
-    x: 0,
-    y: 0,
-  })
 
   const starLocations: Star[] = [];
   for (let i = 0; i < 100; i++) {
@@ -56,6 +57,15 @@ const Experience = () => {
     })
   }
   const [starLocs, setStarLocs] = useState<Star[]>(starLocations);
+
+  const [page, setPage] = useState<number>(0);
+
+  const handlePageLeft = () => {
+    setPage(page-1);
+  }
+  const handlePageRight = () => {
+    setPage(page+1)
+  }
 
   const cutoff = {
     day: 0.2,
@@ -97,20 +107,6 @@ const Experience = () => {
           g = Math.round((1 - t) * color1[1] + t * color2[1]),
           b = Math.round((1 - t) * color1[2] + t * color2[2]);
     return [r, g, b];
-  }
-
-  const handleResize = () => {
-    setWindowSize({
-      height: window.innerHeight,
-      width: window.innerWidth,
-    })
-  }
-
-  const handleMouseMove = (e: MouseEvent) => {
-    setCursor({
-      x: e.clientX,
-      y: e.clientY,
-    })
   }
 
   const setGradient = (gradient: CanvasGradient, time: string) => {
@@ -278,19 +274,8 @@ const Experience = () => {
     }
   }, [windowSize, cursor])
 
-  // Listeners
-  useEffect(() => {
-    window.addEventListener('resize', handleResize)
-    window.addEventListener('mousemove', handleMouseMove)
-
-    return() => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-    }
-  }, [])
-
   return(
-    <>
+    <Container>
       <Canvas ref={canvasRef} />
       <Img1
         src={Mountains1}
@@ -320,32 +305,91 @@ const Experience = () => {
         height={windowSize.height}
         width={windowSize.height}
       />
-      <TextBox color={cursor.y > windowSize.height-windowSize.height*cutoff.sunset}>
-        <Company>Staffbase - Junior Software Engineer</Company>
-        <Date>May 2022 - May 2023</Date>
-        <Tasks>
-          <Task>
-            <p>Implemented improvements and fixes to enhance the functionalities of a collaborative email creation tool within the web application.</p>
-          </Task>
-          <Task>
-            <p>Contributed to enhancing the scalability of the UI library by modifying components to make them more reusable.</p>
-          </Task>
-          <Task>
-            <p>Improved the technical onboarding process by refining and creating onboarding documentation.</p>
-          </Task>
-          <Task>
-            <p>Reviewed peers' code modifications and either approved or suggested enhancements to these modifications.</p>
-          </Task>
-          <Task>
-            <p>Contributed to the modernization of the code base by updating components to match company practices.</p>
-          </Task>
-        </Tasks>
-      </TextBox>
-    </>
+      <ButtonContainer>
+        <LeftButton color={cursor.y > windowSize.height-windowSize.height*cutoff.sunset} page={page} onClick={() => handlePageLeft()} >{'<'}</LeftButton>
+      </ButtonContainer>
+      <ButtonContainer>
+        <RightButton color={cursor.y > windowSize.height-windowSize.height*cutoff.sunset} page={page} onClick={() => handlePageRight()}>{'>'}</RightButton>
+      </ButtonContainer>
+      <VisibleContainer>
+        <TextBoxContainer page={page}>
+          <TextBox color={cursor.y > windowSize.height-windowSize.height*cutoff.sunset}>
+            <Company>Staffbase | Junior Software Engineer</Company>
+            <Date>May 2022 - May 2023</Date>
+            <Tasks>
+              <Task>
+                <p>Implemented improvements and fixes to enhance the functionalities of a collaborative email creation tool within the web application.</p>
+              </Task>
+              <Task>
+                <p>Contributed to enhancing the scalability of the UI library by modifying components to make them more reusable.</p>
+              </Task>
+              <Task>
+                <p>Improved the technical onboarding process by refining and creating onboarding documentation.</p>
+              </Task>
+              <Task>
+                <p>Reviewed peers' code modifications and either approved or suggested enhancements to these modifications.</p>
+              </Task>
+              <Task>
+                <p>Contributed to the modernization of the code base by updating components to match company practices.</p>
+              </Task>
+            </Tasks>
+          </TextBox>
+          <TextBox color={cursor.y > windowSize.height-windowSize.height*cutoff.sunset}>
+            <Company>Humance | IT Technician</Company>
+            <Date>May 2020 - May 2022</Date>
+            <Tasks>
+              <Task>
+                <p>Prepared comprehensive documentation for software processes and hardware technologies.</p>
+              </Task>
+              <Task>
+                <p>Contributed to the modernization of the IT infrastructure by facilitating the transition to a cloud-based environment.</p>
+              </Task>
+              <Task>
+                <p>Assisted in the technical onboarding process for new employees.</p>
+              </Task>
+              <Task>
+                <p>Offered technical support to address and resolve technical issues.</p>
+              </Task>
+            </Tasks>
+          </TextBox>
+          <TextBox color={cursor.y > windowSize.height-windowSize.height*cutoff.sunset}>
+            <Company>Walmart Canada | Customer Service Associate</Company>
+            <Date>Sept 2015 - May 2020</Date>
+            <Tasks>
+              <Task>
+                <p>Provided individual training sessions for 15 employees.</p>
+              </Task>
+              <Task>
+                <p>Successfully managed inventory to ensure proper tracking and availability of resources.</p>
+              </Task>
+              <Task>
+                <p>Created a streamlined cleaning plan to simplify and improve sanitation procedures.</p>
+              </Task>
+            </Tasks>
+          </TextBox>
+        </TextBoxContainer>
+      </VisibleContainer>
+    </Container>
   )
 }
 
 export default Experience
+
+const frameIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
+const Container = styled.div`
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  animation: ${frameIn} 1s linear forwards;
+`
 
 const Canvas = styled.canvas`
   position: fixed;
@@ -356,6 +400,7 @@ const Img1 = styled.img.attrs<Coordinates & Dimensions>(props => ({
     left: `${-1 - ((props.x / props.width))}%`,
   }
 }))`
+  pointer-events: none;
   position: fixed;
   height: 10%;
   width: 52%;
@@ -367,6 +412,7 @@ const Img2 = styled.img.attrs<Coordinates & Dimensions>(props => ({
     left: `${50.5 - (props.x / props.width)}%`,
   }
 }))`
+  pointer-events: none;
   position: fixed;
   height: 13%;
   width: 52%;
@@ -378,6 +424,7 @@ const Img3 = styled.img.attrs<Coordinates & Dimensions>(props => ({
     left: `${-1 - (props.x / props.width) * 5}%`,
   }
 }))`
+  pointer-events: none;
   position: fixed;
   height: 18%;
   width: 58%;
@@ -391,6 +438,7 @@ const Img4 = styled.img.attrs<Coordinates & Dimensions>(props => ({
     left: `${57 - (props.x / props.width) * 5}%`,
   }
 }))`
+  pointer-events: none;
   position: fixed;
   height: 18%;
   width: 59%;
@@ -399,13 +447,26 @@ const Img4 = styled.img.attrs<Coordinates & Dimensions>(props => ({
   opacity: 0.8;
 `
 
-const TextBox = styled.p<TextColor>`
-  position: fixed;
-  font-family: Arial, sans-serif;
-  width: 40%;
-  color: ${props => props.color ? 'white' : 'black'};
+const VisibleContainer = styled.div`
   right: 100px;
   top: 40%;
+  position: fixed;
+  max-width: 40%;
+  overflow: hidden;
+`
+
+const TextBoxContainer = styled.div<Page>`
+  display: flex;
+  transform: translateX(${props => -props.page * 100}%);
+  transition: transform 0.5s ease;
+`
+
+const TextBox = styled.p<TextColor>`
+  font-family: Arial, sans-serif;
+  color: ${props => props.color ? 'white' : 'black'};
+  min-width: 100%;
+  pointer-events: none;
+  overflow: auto;
 `
 
 const Company = styled.h2`
@@ -425,4 +486,40 @@ const Tasks = styled.ul`
 
 const Task = styled.li`
   margin: 0;
+`
+
+const ButtonContainer = styled.div`
+  min-width: 100px;
+`
+
+const LeftButton = styled.button<TextColor & Page>`
+  font-weight: bold;
+  font-size: 45px;
+  position: fixed;
+  width: 60px;
+  right: calc(40% + 120px);
+  margin: 0 20px 0 20px;
+  top: 48%;
+  height: 60px;
+  color: ${props => props.color ? 'white' : 'black'};
+  display: ${props => props.page === 0 ? 'none' : 'visible'};
+  background: none;
+  border: none;
+  cursor: pointer;
+`
+
+const RightButton = styled.button<TextColor & Page>`
+  font-weight: bold;
+  font-size: 45px;
+  position: fixed;
+  width: 60px;
+  right: 20px;
+  margin: 0 20px 0 20px;
+  top: 48%;
+  height: 60px;
+  color: ${props => props.color ? 'white' : 'black'};
+  display: ${props => props.page === 2 ? 'none' : 'visible'};
+  background: none;
+  border: none;
+  cursor: pointer;
 `
